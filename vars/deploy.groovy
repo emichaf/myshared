@@ -8,6 +8,7 @@ def call(def server, def port) {
 
 			
     sh "sshpass -p ${myuser_PASSWORD} scp /target/*.jar ${myuser_USER}@${developmentServer}:/home/emichaf/myjarbuild.jar"
+	}
 			
 	
 }
