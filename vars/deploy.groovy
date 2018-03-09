@@ -2,7 +2,7 @@ def call(def server, def port) {
     
 	
 	withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                                              credentialsId: 'myuser',
+                                              credentialsId: 'RemoteCredentials',
                                               usernameVariable: 'myuser_USER',
                                               passwordVariable: 'myuser_PASSWORD']]) {
 
