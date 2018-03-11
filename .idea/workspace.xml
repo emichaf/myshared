@@ -20,8 +20,8 @@
       <file leaf-file-name="deploy.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vars/deploy.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="19" lean-forward="false" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
+            <state relative-caret-position="176">
+              <caret line="8" column="164" lean-forward="false" selection-start-line="8" selection-start-column="164" selection-end-line="8" selection-end-column="164" />
               <folding />
             </state>
           </provider>
@@ -265,12 +265,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1520784837245</updated>
-      <workItem from="1520784839038" duration="300000" />
+      <workItem from="1520784839038" duration="949000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="300000" />
+    <option name="totallyTimeSpent" value="949000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1926" y="31" width="1918" height="1078" extended-state="0" />
@@ -325,8 +325,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/vars/deploy.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="19" lean-forward="false" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
+        <state relative-caret-position="176">
+          <caret line="8" column="164" lean-forward="false" selection-start-line="8" selection-start-column="164" selection-end-line="8" selection-end-column="164" />
           <folding />
         </state>
       </provider>
