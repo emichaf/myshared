@@ -6,7 +6,7 @@ def call(def server) {
                                               usernameVariable: 'myuser_USER',
                                               passwordVariable: 'myuser_PASSWORD']]) {
 
-		def RESPONSE_scp = sh(returnStdout: true, script: "sshpass -p ${myuser_PASSWORD} scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no /target/*.war ${myuser_USER}@${server}:/home/emichaf/test/myjarbuild.war").trim()
+		def RESPONSE_scp = sh(returnStdout: true, script: "sshpass -p ${myuser_PASSWORD} scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no target/*.war ${myuser_USER}@${server}:/home/emichaf/test/myjarbuild.war").trim()
 
 		//sh "sshpass -p ${myuser_PASSWORD} scp /target/*.jar ${myuser_USER}@${developmentServer}:/home/emichaf/myjarbuild.jar"
 
