@@ -1,4 +1,4 @@
-def call(def server, def credentialsId) {
+def call(def server) {
     
 	
 	withCredentials([[$class: 'UsernamePasswordMultiBinding',
