@@ -12,6 +12,11 @@ def minfunc(DOCKER_HOST) {
                 sh "echo ${DOCKER_HOST}"
                 log.info("testar")
 
+                // testar shared libs in local lib
+                def shellLib = new shell()
+                def commitId = shellLib.pipe("git rev-parse HEAD")
+                println commitId
+
             }
         }
 
