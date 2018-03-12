@@ -3,7 +3,7 @@ import org.apache.commons.math3.primes.Primes
 import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
 
 
-def minfunc(DOCKER_HOST) {
+void minfunc(DOCKER_HOST) {
 
     unstash "eiffel-intelligence-artifact-wrapper"
     try {
