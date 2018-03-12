@@ -20,4 +20,3 @@ def min(DOCKER_HOST) {
     }
 }
 
-return this
