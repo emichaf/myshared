@@ -11,7 +11,7 @@ def minfunc(DOCKER_HOST) {
 
         println "in stage"
 
-        sh "ls ${DOCKER_HOST}"
+        sh "echo ${DOCKER_HOST}"
 
        // }
     } catch (FlowInterruptedException interruptEx) {

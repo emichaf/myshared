@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="341e75c9-2267-41f0-9b1e-cc0387638f22" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/sonarIssues.xml" afterPath="$PROJECT_DIR$/.idea/sonarIssues.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vars/mypipeline.groovy" afterPath="$PROJECT_DIR$/vars/mypipeline.groovy" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,8 +42,8 @@
       <file leaf-file-name="mypipeline.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vars/mypipeline.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="15" column="9" lean-forward="false" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
+            <state relative-caret-position="286">
+              <caret line="13" column="29" lean-forward="false" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -829,12 +831,12 @@
       <option name="presentableId" value="Default" />
       <updated>1520784837245</updated>
       <workItem from="1520784839038" duration="4396000" />
-      <workItem from="1520841789824" duration="4093000" />
+      <workItem from="1520841789824" duration="4155000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8489000" />
+    <option name="totallyTimeSpent" value="8551000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1964" y="28" width="1918" height="1078" extended-state="0" />
@@ -921,8 +923,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vars/mypipeline.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="15" column="9" lean-forward="false" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
+        <state relative-caret-position="286">
+          <caret line="13" column="29" lean-forward="false" selection-start-line="13" selection-start-column="29" selection-end-line="13" selection-end-column="29" />
           <folding />
         </state>
       </provider>
