@@ -1,8 +1,5 @@
 @Grab('org.apache.commons:commons-math3:3.4.1')
 import org.apache.commons.math3.primes.Primes
-
-
-//@Library(['github.com/emichaf/jenkins-pipeline-libraries@master']) _
 import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
 
 
@@ -18,9 +15,9 @@ def minfunc(DOCKER_HOST) {
                 sh "echo ${DOCKER_HOST}"
 
                 // testar shared libs in local lib
-                def shellLib = new shell()
+                /*def shellLib = new shell()
                 def commitId = shellLib.pipe("git rev-parse HEAD")
-                println commitId
+                println commitId*/
             }
         }
 

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="341e75c9-2267-41f0-9b1e-cc0387638f22" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vars/mypipeline.groovy" afterPath="$PROJECT_DIR$/vars/mypipeline.groovy" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -40,8 +41,8 @@
       <file leaf-file-name="mypipeline.groovy" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vars/mypipeline.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="18" column="32" lean-forward="true" selection-start-line="15" selection-start-column="16" selection-end-line="18" selection-end-column="32" />
+            <state relative-caret-position="22">
+              <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -829,12 +830,12 @@
       <option name="presentableId" value="Default" />
       <updated>1520784837245</updated>
       <workItem from="1520784839038" duration="4396000" />
-      <workItem from="1520841789824" duration="4972000" />
+      <workItem from="1520841789824" duration="5140000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9368000" />
+    <option name="totallyTimeSpent" value="9536000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1964" y="28" width="1918" height="1078" extended-state="0" />
@@ -921,8 +922,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/vars/mypipeline.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="18" column="32" lean-forward="true" selection-start-line="15" selection-start-column="16" selection-end-line="18" selection-end-column="32" />
+        <state relative-caret-position="22">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
