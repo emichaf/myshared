@@ -1,3 +1,4 @@
+@Library(['github.com/emichaf/jenkins-pipeline-libraries@master']) _
 import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
 
 
