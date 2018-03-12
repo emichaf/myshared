@@ -7,11 +7,11 @@ def minfunc(DOCKER_HOST) {
     try {
 
         docker.withServer("$DOCKER_HOST", 'remote_docker_host') {
+            docker.image('emtrout/nind23').inside("--privileged") {
+                println "in stage"
 
-        println "in stage"
-
-        sh "echo ${DOCKER_HOST}"
-
+                sh "echo ${DOCKER_HOST}"
+            }
         }
 
     } catch (FlowInterruptedException interruptEx) {
