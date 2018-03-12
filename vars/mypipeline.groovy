@@ -10,7 +10,7 @@ def minfunc(DOCKER_HOST) {
                 println "in stage"
 
                 sh "echo ${DOCKER_HOST}"
-
+                log.info("testar")
 
             }
         }
