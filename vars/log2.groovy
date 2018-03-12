@@ -2,12 +2,14 @@
 
 class log2 implements Serializable {
 
-    public void info(message) {
+    def info(message) {
         echo "INFO: ${message}"
     }
 
-    public void warning(message) {
+    def warning(message) {
         echo "WARNING: ${message}"
     }
 
 }
+
+return this
