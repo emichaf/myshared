@@ -1,7 +1,7 @@
 import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
 
 
-def minfunc(DOCKER_HOST) {
+def minfunc() {
 
     unstash "eiffel-intelligence-artifact-wrapper"
     try {
