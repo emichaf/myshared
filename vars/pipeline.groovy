@@ -1,18 +1,18 @@
 import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
 
 
-def minfunc() {
+def minfunc(DOCKER_HOST) {
 
     unstash "eiffel-intelligence-artifact-wrapper"
     try {
 
         docker.withServer("$DOCKER_HOST", 'remote_docker_host') {
 
-            stage('Stage Groovy') {
-                println "in stage"
 
-                sh "ls"
-            }
+        println "in stage"
+
+        sh "ls"
+
         }
     } catch (FlowInterruptedException interruptEx) {
 
