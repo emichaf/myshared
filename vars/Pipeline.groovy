@@ -1,8 +1,7 @@
 import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
 
 
-def call() {
-    String DOCKER_HOST = "tcp://docker104-eiffel999.lmera.ericsson.se:4243"
+def call(DOCKER_HOST) {
 
     unstash "eiffel-intelligence-artifact-wrapper"
     try {
