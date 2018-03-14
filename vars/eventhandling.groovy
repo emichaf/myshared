@@ -1,8 +1,8 @@
-def send(JSON_IN, EVENT_TYPE_IN) {
+def send(Map pipelineParams) {
 
     echo sh(returnStdout: true, script: 'env')
 
-    def response = sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${JSON_IN}' ${EVENT_PARSER_PUB_GEN_URI}${EVENT_TYPE_IN}").trim()
+    def response = sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${pipelineParams.JSON_IN}' ${EVENT_PARSER_PUB_GEN_URI}${EVENT_TYPE_IN}").trim()
 
     sh "echo ${response}"
     response = readJSON text: "${response}"
