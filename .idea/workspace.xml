@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="341e75c9-2267-41f0-9b1e-cc0387638f22" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/vars/eventhandling.groovy" afterPath="$PROJECT_DIR$/vars/eventhandling.groovy" />
-    </list>
+    <list default="true" id="341e75c9-2267-41f0-9b1e-cc0387638f22" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -844,12 +842,12 @@
       <workItem from="1520784839038" duration="4396000" />
       <workItem from="1520841789824" duration="14724000" />
       <workItem from="1520889965321" duration="639000" />
-      <workItem from="1521015412671" duration="3164000" />
+      <workItem from="1521015412671" duration="3387000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22923000" />
+    <option name="totallyTimeSpent" value="23146000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1911" y="-9" width="1938" height="1098" extended-state="6" />
