@@ -1,12 +1,12 @@
-def call() {
+def call(JSON_IN, EVENT_TYPE_IN) {
 
-    println "helloj"
+    //println "helloj"
 
-    //def EVENT_PARSER_PUB_GEN_URI = 'http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType='
+    def EVENT_PARSER_PUB_GEN_URI = 'http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType='
 
-    //sh(returnStdout: true, script: 'env')
+    sh(returnStdout: true, script: 'env')
 
-    //def result =  sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${json}' ${EVENT_PARSER_PUB_GEN_URI}${EVENT_TYPE}").trim()
+    def result =  sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${JSON_IN}' ${EVENT_PARSER_PUB_GEN_URI}${EVENT_TYPE_IN}").trim()
 
-    ///return result
+    return result
 }
