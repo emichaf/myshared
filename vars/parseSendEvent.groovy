@@ -1,4 +1,4 @@
-def parseSendEvent(json, EVENT_TYPE) {
+def call(json, EVENT_TYPE) {
 
     //def EVENT_PARSER_PUB_GEN_URI = 'http://docker104-eiffel999.lmera.ericsson.se:9900/doit/?msgType='
 
