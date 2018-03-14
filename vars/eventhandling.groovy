@@ -1,6 +1,6 @@
 def send(JSON_IN, EVENT_TYPE_IN) {
 
-    sh "env"
+    sh "echo env"
 
     def response = sh(returnStdout: true, script: "curl -H 'Content-Type: application/json' -X POST --data-binary '${JSON_IN}' ${EVENT_PARSER_PUB_GEN_URI}${EVENT_TYPE_IN}").trim()
 
