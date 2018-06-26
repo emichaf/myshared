@@ -1,6 +1,6 @@
-def call(Map pipelineParams) {
-
 import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
+
+def call(Map pipelineParams) {
 
 node{
 
