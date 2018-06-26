@@ -1,6 +1,12 @@
 import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException
 
-def call(Map pipelineParams) {
+def call(body) {
+
+    def pipelineParams= [:]
+    body.resolveStrategy = Closure.DELEGATE_FIRST
+    body.delegate = pipelineParams
+    body()
+
 
 node{
 
