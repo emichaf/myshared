@@ -26,20 +26,10 @@ def call(body) {
      Object POM
      String OUTCOME_CONCLUSION
 
-     // ### properties
-     String ARM_URL = "https://eiffel.lmera.ericsson.se/nexus/content/repositories/releases/test/com/ericsson/eiffel/eiffel-intelligence-artifact-wrapper"
-     String DOCKER_HOST = "tcp://docker104-eiffel999.lmera.ericsson.se:4243"
-     String SOURCE_CODE_REPO = "https://github.com/ericsson/eiffel-intelligence.git"
-     String WRAPPER_REPO = "https://github.com/emichaf/eiffel-intelligence-artifact-wrapper.git"
-     String build_info_file = 'build_info.yml'
-     String BUILD_COMMAND = "mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V"
-     String SONARQUBE_LOGIN_TOKEN = "8829c73e-19b0-4f77-b74c-e112bbacd4d5"
-
-
 try {
 
 
- docker.withServer("$DOCKER_HOST", 'remote_docker_host') {
+ docker.withServer("$pipelineParams.DOCKER_HOST", 'remote_pipelineParams.DOCKER_HOST') {
 
      /*------------------------------------------------------------------------------------------
      For inside() to work, the Docker server and the Jenkins agent must use the same filesystem,
@@ -60,12 +50,12 @@ try {
 
            dir ('wrapper') {
 
-                            git branch: "master", url: "$WRAPPER_REPO"
-                            //git branch: "$env.BRANCH_NAME", url: "$WRAPPER_REPO"
+                            git branch: "master", url: "$pipelineParams.WRAPPER_REPO"
+                            //git branch: "$env.BRANCH_NAME", url: "$pipelineParams.WRAPPER_REPO"
 
                             // Read build info file with github hash
-                            sh "cat $build_info_file"
-                            def props = readYaml file: "$build_info_file"
+                            sh "cat $pipelineParams.BUILD_INFO_FILE"
+                            def props = readYaml file: "$pipelineParams.BUILD_INFO_FILE"
                             GITHUB_HASH_TO_USE = props.commit
 
                             sh "echo hash -> $GITHUB_HASH_TO_USE"
@@ -81,7 +71,7 @@ try {
               dir ('sourcecode') {
 
                   checkout scm: [$class: 'GitSCM',
-                          userRemoteConfigs: [[url: "$SOURCE_CODE_REPO"]],
+                          userRemoteConfigs: [[url: "$pipelineParams.SOURCE_CODE_REPO"]],
                           branches: [[name: "$GITHUB_HASH_TO_USE"]]]
 
                           GIT_SHORT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
@@ -92,7 +82,7 @@ try {
 
                           ARM_ARTIFACT = "${POM.artifactId}-${POM.version}.war"
 
-                          ARM_ARTIFACT_PATH = "${ARM_URL}/${POM.version}/${ARM_ARTIFACT}"
+                          ARM_ARTIFACT_PATH = "${pipelineParams.ARM_URL}/${POM.version}/${ARM_ARTIFACT}"
               }
 
         }
@@ -142,7 +132,7 @@ try {
              stage('SonarQube Code Analysis') {
 
                    //sh 'mvn sonar:sonar -Dsonar.host.url=https://sonarqube.lmera.ericsson.se'
-                 //  sh "mvn sonar:sonar -Dsonar.host.url=http://docker104-eiffel999.lmera.ericsson.se:9000 -Dsonar.login=$SONARQUBE_LOGIN_TOKEN"
+                 //  sh "mvn sonar:sonar -Dsonar.host.url=http://docker104-eiffel999.lmera.ericsson.se:9000 -Dsonar.login=$pipelineParams.SONARQUBE_LOGIN_TOKEN"
 
 
              }
@@ -153,7 +143,7 @@ try {
 
              stage('Compile') {
 
-                      sh "${BUILD_COMMAND}"
+                      sh "${pipelineParams.BUILD_COMMAND}"
 
                       sh 'ls target'
               }
