@@ -3,6 +3,16 @@
 //
 // Build/test steps executed in docker containers
 //
+// Required wrapper Repo Dockerfile path and JAR/WAR file
+//     - src/main/docker/Dockerfile
+//     - src/main/docker/app.jar or app.war (needs to be copied in the Dockerfile above!)
+//     - build_info.yml in the proj root
+//
+// Required Jenkins secrets:
+//     - NEXUS_CREDENTIALS_EIFFEL_NEXUS_EXTENSION
+//     - DOCKERHUB_CREDENTIALS
+//     - ???? Add SonarQube creds...
+//
 // Required InParams:
 //     - ARM_URL
 //     - DOCKER_HOST
@@ -13,6 +23,7 @@
 //     - SONARQUBE_LOGIN_TOKEN
 //     - DOCKERIMAGE_BUILD_TEST
 //     - DOCKERIMAGE_DOCKER_BUILD_PUSH
+//     - JAR_WAR_EXTENSION
 //
 //  Maintainer: michael.frick@ericsson.com
 //	 
@@ -39,7 +50,7 @@ def call(body) {
   // ## Global Vars
      String GIT_SHORT_COMMIT
      String GIT_LONG_COMMIT
-     String GITHUB_HASH_TO_USE
+     String SC_GIT_HASH_TO_USE
      String ARM_ARTIFACT
      String ARM_ARTIFACT_PATH
      Object POM
@@ -62,10 +73,8 @@ try {
 
        stage ('Wrapper Checkout') {
 
-        // print existing env vars
-        echo sh(returnStdout: true, script: 'env')
-
-
+           // print existing env vars
+           echo sh(returnStdout: true, script: 'env')
 
            dir ('wrapper') {
 
@@ -74,9 +83,9 @@ try {
                             // Read build info file with github hash
                             sh "cat $pipelineParams.BUILD_INFO_FILE"
                             def props = readYaml file: "$pipelineParams.BUILD_INFO_FILE"
-                            GITHUB_HASH_TO_USE = props.commit
+                            SC_GIT_HASH_TO_USE = props.commit
 
-                            sh "echo hash -> $GITHUB_HASH_TO_USE"
+                            sh "echo hash -> $SC_GIT_HASH_TO_USE"
 
               }
 
@@ -84,13 +93,13 @@ try {
 
 
 
-       stage ("GITHUB Checkout: $GITHUB_HASH_TO_USE") {
+       stage ("GITHUB Checkout: $SC_GIT_HASH_TO_USE") {
 
               dir ('sourcecode') {
 
                   checkout scm: [$class: 'GitSCM',
                           userRemoteConfigs: [[url: "$pipelineParams.SOURCE_CODE_REPO"]],
-                          branches: [[name: "$GITHUB_HASH_TO_USE"]]]
+                          branches: [[name: "$SC_GIT_HASH_TO_USE"]]]
 
                           GIT_SHORT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
 
@@ -98,7 +107,7 @@ try {
 
                           POM = readMavenPom file: 'pom.xml'
 
-                          ARM_ARTIFACT = "${POM.artifactId}-${POM.version}.war"
+                          ARM_ARTIFACT = "${POM.artifactId}-${POM.version}.${pipelineParams.JAR_WAR_EXTENSION}"
 
                           ARM_ARTIFACT_PATH = "${pipelineParams.ARM_URL}/${POM.version}/${ARM_ARTIFACT}"
               }
@@ -117,83 +126,51 @@ try {
 
              docker.image("$pipelineParams.DOCKERIMAGE_BUILD_TEST").inside("--privileged"){
 
-           /*
-                       stage ('SonarQube Code Analysis') {
+				 stage('SonarQube Code Analysis') {
 
-                                         //docker.image('sonarqube').withRun('-p 9000:9000 -p 9092:9092 -e "SONARQUBE_JDBC_USERNAME=sonar" -e "SONARQUBE_JDBC_PASSWORD=sonar" -e "SONARQUBE_JDBC_URL=jdbc:postgresql://localhost/sonar"') { c ->
-                                         //docker.image('sonarqube').withRun('docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 sonarqube') { c ->
+					  sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONAR_HOST_URL -Dsonar.login=$pipelineParams.SONARQUBE_LOGIN_TOKEN"
 
-
-                                                //dir ('wrapper') {
-                                                        docker.image('emtrout/dind:latest').inside {
-
-                                                              //sh 'mvn sonar:sonar -Dsonar.host.url=http://localhost:9000'
-
-                                                              sh 'mvn sonar:sonar -Dsonar.host.url=https://sonarqube.lmera.ericsson.se'
-
-
-                                                              //sh 'mvn sonar:sonar -Dsonar.host.url=http://docker104-eiffel999.lmera.ericsson.se:9000 -Dsonar.login=1c8363811fc123582a60ed4607782902e2f5ecc9'
-
-
-                                                        }
-
-                                                //}
-
-                                         //}
-
-
-                           }
-           */
-
-
-/*
-             stage('SonarQube Code Analysis') {
-
-                   //sh 'mvn sonar:sonar -Dsonar.host.url=https://sonarqube.lmera.ericsson.se'
-                 //  sh "mvn sonar:sonar -Dsonar.host.url=http://docker104-eiffel999.lmera.ericsson.se:9000 -Dsonar.login=$pipelineParams.SONARQUBE_LOGIN_TOKEN"
-
-
-             }
-
-*/
-
-
-
-             stage('Compile') {
-
-                      sh "${pipelineParams.BUILD_COMMAND}"
-
-                      sh 'ls target'
-              }
-
-
-
-              stage('UnitTests & FlowTests with TestDoubles)') {
-                      // OBS privileged: true for image for embedded mongodb (flapdoodle) to work
-                      // and glibc in image!
-
-                        def travis_datas = readYaml file: ".travis.yml"
-
-                        // Execute tests (steps) in travis file, ie same file which is used in travis build (open source)
-                        travis_datas.script.each { item ->
-                              // sh "$item"
-                        };
-              }
+				 }
 
 
 
 
-              stage('Publish Artifact ARM -> WAR/JAR)') {
 
-                       withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                                              credentialsId: 'NEXUS_CREDENTIALS_EIFFEL_NEXUS_EXTENSION',
-                                              usernameVariable: 'EIFFEL_NEXUS_USER',
-                                              passwordVariable: 'EIFFEL_NEXUS_PASSWORD']]) {
+				 stage('Compile') {
 
-                              // Upload to ARM (ex eiffel-intelligence-0.0.1-SNAPSHOT.war)
-                              sh "curl -v -u ${EIFFEL_NEXUS_USER}:${EIFFEL_NEXUS_PASSWORD} --upload-file ./target/${ARM_ARTIFACT} ${ARM_ARTIFACT_PATH}"
-                      }
-                }
+						  sh "${pipelineParams.BUILD_COMMAND}"
+
+						  sh 'ls target'
+				  }
+
+
+
+				  stage('UnitTests & FlowTests with TestDoubles)') {
+						  // OBS privileged: true for image for embedded mongodb (flapdoodle) to work
+						  // and glibc in image!
+
+							def travis_datas = readYaml file: ".travis.yml"
+
+							// Execute tests (steps) in travis file, ie same file which is used in travis build (open source)
+							travis_datas.script.each { item ->
+								  // sh "$item"
+							};
+				  }
+
+
+
+
+				  stage('Publish Artifact ARM -> WAR/JAR)') {
+
+						   withCredentials([[$class: 'UsernamePasswordMultiBinding',
+												  credentialsId: 'NEXUS_CREDENTIALS_EIFFEL_NEXUS_EXTENSION',
+												  usernameVariable: 'EIFFEL_NEXUS_USER',
+												  passwordVariable: 'EIFFEL_NEXUS_PASSWORD']]) {
+
+								  // Upload to ARM (ex eiffel-intelligence-0.0.1-SNAPSHOT.war)
+								  sh "curl -v -u ${EIFFEL_NEXUS_USER}:${EIFFEL_NEXUS_PASSWORD} --upload-file ./target/${ARM_ARTIFACT} ${ARM_ARTIFACT_PATH}"
+						  }
+					}
 
 
            } // docker.image(.....
@@ -224,7 +201,7 @@ try {
 
 
                                    // Fetch Artifact (jar/war) from ARM
-                                   sh "curl -X GET -u ${EIFFEL_NEXUS_USER}:${EIFFEL_NEXUS_PASSWORD} ${ARM_ARTIFACT_PATH} -o src/main/docker/app.war"
+                                   sh "curl -X GET -u ${EIFFEL_NEXUS_USER}:${EIFFEL_NEXUS_PASSWORD} ${ARM_ARTIFACT_PATH} -o src/main/docker/app.${pipelineParams.JAR_WAR_EXTENSION}"
 
                                    sh "ls src/main/docker/"
 
