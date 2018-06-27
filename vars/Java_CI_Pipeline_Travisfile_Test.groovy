@@ -189,6 +189,8 @@ try {
        docker.image("$pipelineParams.DOCKERIMAGE_DOCKER_BUILD_PUSH").inside("--privileged"){
 
            stage('Build and Push Docker Image to Registry') {
+		   
+		                       sh "ls src/main/docker/"
 
 
                                def exists = fileExists '/src/main/docker/app.war'
