@@ -231,9 +231,9 @@ try {
 
                                    sh "docker push ${DOCKER_HUB_USER}/${POM.artifactId}:latest"
 
-                                   sh "docker build --no-cache=true -t ${DOCKER_HUB_USER}/${POM.artifactId}:${GIT_SHORT_COMMIT} -f src/main/docker/Dockerfile src/main/docker/"
+                                   sh "docker build --no-cache=true -t ${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT} -f src/main/docker/Dockerfile src/main/docker/"
 
-                                   sh "docker push ${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}.${GIT_SHORT_COMMIT}"
+                                   sh "docker push ${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT}"
 
                                    sh "docker logout"
 
