@@ -146,7 +146,7 @@ try {
 
 					 withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SonarQubeToken')]) {
 
-					   // sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONARQUBE_HOST_URL -Dsonar.login=$SonarQubeToken"
+					      sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONARQUBE_HOST_URL -Dsonar.login=$SonarQubeToken"
 						  
 					 }
 
@@ -161,7 +161,7 @@ try {
 
 							// Execute tests (steps) in travis file, ie same file which is used in travis build (open source)
 							travis_datas.script.each { item ->
-								  // sh "$item"
+								   sh "$item"
 							};
 				  }
 
