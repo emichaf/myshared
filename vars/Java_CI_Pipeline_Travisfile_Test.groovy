@@ -4,8 +4,8 @@
 // Build/test steps executed in docker containers
 //  wrapper repo                   Source Code repo      
 //     build_info.yml including -> hash -> checkout source code repo - compile, SonarQube (static code analysis) - test (travis file) - upload ARM - build & push images
-//        |                                                                                                                                                 |
-//     Dockerfile ------------------------------------------------------------------------------------------------------------------------------------------
+//        |                                                                                                                                            |
+//     Dockerfile --------------------------------------------------------------------------------------------------------------------------------------
 //
 // Required repos:
 //     - Wrapper repo with docker file and build info file with source code repo hash to be built
