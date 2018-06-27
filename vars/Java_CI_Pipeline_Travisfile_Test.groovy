@@ -21,6 +21,7 @@
 //     - BUILD_INFO_FILE
 //     - BUILD_COMMAND
 //     - SONARQUBE_LOGIN_TOKEN
+//     - SONARQUBE_HOST_URL
 //     - DOCKERIMAGE_BUILD_TEST
 //     - DOCKERIMAGE_DOCKER_BUILD_PUSH
 //     - JAR_WAR_EXTENSION
@@ -136,7 +137,7 @@ try {
 
 				 stage('SonarQube Code Analysis') {
 
-					  sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONAR_HOST_URL -Dsonar.login=$pipelineParams.SONARQUBE_LOGIN_TOKEN"
+					  sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONARQUBE_HOST_URL -Dsonar.login=$pipelineParams.SONARQUBE_LOGIN_TOKEN"
 
 				 }
 				  
@@ -149,7 +150,7 @@ try {
 
 							// Execute tests (steps) in travis file, ie same file which is used in travis build (open source)
 							travis_datas.script.each { item ->
-								  // sh "$item"
+								   sh "$item"
 							};
 				  }
 
