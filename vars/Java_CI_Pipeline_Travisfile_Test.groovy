@@ -8,7 +8,7 @@
 //     - src/main/docker/app.jar or app.war (needs to be copied in the Dockerfile above!)
 //     - build_info.yml in the proj root
 //
-// Required Jenkins secrets:
+// Required Jenkins Credentials:
 //     - NEXUS_CREDENTIALS_EIFFEL_NEXUS_EXTENSION
 //     - DOCKERHUB_CREDENTIALS
 //     - ???? Add SonarQube creds...
@@ -124,18 +124,7 @@ try {
     dir ('sourcecode') {  // workaround to change dir outside container, not working inside container execution.. yet, see issues stated on top of file!
 
 
-             docker.image("$pipelineParams.DOCKERIMAGE_BUILD_TEST").inside("--privileged"){
-
-				 stage('SonarQube Code Analysis') {
-
-					  sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONAR_HOST_URL -Dsonar.login=$pipelineParams.SONARQUBE_LOGIN_TOKEN"
-
-				 }
-
-
-
-
-
+            
 				 stage('Compile') {
 
 						  sh "${pipelineParams.BUILD_COMMAND}"
@@ -144,6 +133,15 @@ try {
 				  }
 
 
+				  
+				docker.image("$pipelineParams.DOCKERIMAGE_BUILD_TEST").inside("--privileged"){
+
+				 stage('SonarQube Code Analysis') {
+
+					  sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONAR_HOST_URL -Dsonar.login=$pipelineParams.SONARQUBE_LOGIN_TOKEN"
+
+				 }
+				  
 
 				  stage('UnitTests & FlowTests with TestDoubles)') {
 						  // OBS privileged: true for image for embedded mongodb (flapdoodle) to work
