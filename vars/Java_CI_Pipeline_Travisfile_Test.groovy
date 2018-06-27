@@ -3,15 +3,19 @@
 //
 // Build/test steps executed in docker containers
 //
+// Required repos:
+//     - Wrapper repo with docker file and build info file with source code repo hash to be built
+//     - SourceCode repo
+//
 // Required wrapper Repo Dockerfile path and JAR/WAR file
 //     - src/main/docker/Dockerfile
 //     - src/main/docker/app.jar or app.war (needs to be copied in the Dockerfile above!)
 //     - build_info.yml in the proj root
 //
 // Required Jenkins Credentials:
-//     - NEXUS_CREDENTIALS_EIFFEL_NEXUS_EXTENSION
-//     - DOCKERHUB_CREDENTIALS
-//     - ???? Add SonarQube creds...
+//     - NEXUS_CREDENTIALS_EIFFEL_NEXUS_EXTENSION (Username with password)
+//     - DOCKERHUB_CREDENTIALS (Username with password)
+//     - SONARQUBE_TOKEN (Secret text)
 //
 // Required InParams:
 //     - ARM_URL
@@ -137,7 +141,11 @@ try {
 
 				 stage('SonarQube Code Analysis') {
 
-					  sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONARQUBE_HOST_URL -Dsonar.login=$pipelineParams.SONARQUBE_LOGIN_TOKEN"
+					 withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SonarQubeToken')]) {
+
+					    sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONARQUBE_HOST_URL -Dsonar.login=$SonarQubeToken"
+						  
+					 }
 
 				 }
 				  
