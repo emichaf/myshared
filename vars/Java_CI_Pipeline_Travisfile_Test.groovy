@@ -13,7 +13,7 @@
 //
 // Required wrapper Repo Dockerfile path and JAR/WAR file
 //     - src/main/docker/Dockerfile
-//     - src/main/docker/app.jar or app.war (needs to be copied in the Dockerfile above!)
+//     - src/main/docker/app.jar or app.war (Will be downloaded via ARM! Need to be copied in the Dockerfile above!)
 //     - build_info.yml in the proj root
 //
 // Required Jenkins Credentials:
