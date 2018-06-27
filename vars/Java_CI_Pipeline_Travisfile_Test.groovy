@@ -123,18 +123,16 @@ try {
 
     dir ('sourcecode') {  // workaround to change dir outside container, not working inside container execution.. yet, see issues stated on top of file!
 
-
-            
+	 				  
+		docker.image("$pipelineParams.DOCKERIMAGE_BUILD_TEST").inside("--privileged"){
+	
+	
 				 stage('Compile') {
 
 						  sh "${pipelineParams.BUILD_COMMAND}"
 
 						  sh 'ls target'
 				  }
-
-
-				  
-				docker.image("$pipelineParams.DOCKERIMAGE_BUILD_TEST").inside("--privileged"){
 
 				 stage('SonarQube Code Analysis') {
 
@@ -171,7 +169,7 @@ try {
 					}
 
 
-           } // docker.image(.....
+        } // docker.image(.....
 
     } // dir ('sourcecode') 
 
