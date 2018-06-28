@@ -161,7 +161,7 @@ try {
 
 							// Execute tests (steps) in travis file, ie same file which is used in travis build (open source)
 							travis_datas.script.each { item ->
-								  // sh "$item"
+								   sh "$item"
 							};
 				  }
 
