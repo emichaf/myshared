@@ -48,9 +48,9 @@ def call(body) {
 
 
     podTemplate(label: 'mypod', containers: [
-        containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
-        containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.0', command: 'cat', ttyEnabled: true),
-        containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true),
+        //containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
+        //containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.0', command: 'cat', ttyEnabled: true),
+        //containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'maven', image: 'emtrout/dind:latest', command: 'cat', ttyEnabled: true)
       ],
       volumes: [
@@ -135,11 +135,10 @@ try {
 
 
 
-
+/*
     dir ('sourcecode') {  // workaround to change dir outside container, not working inside container execution.. yet, see issues stated on top of file!
 
 
-		//docker.image("$pipelineParams.DOCKERIMAGE_BUILD_TEST").inside("--privileged"){
 container('maven') {
 
 				 stage('Compile') {
@@ -149,114 +148,12 @@ container('maven') {
 						  sh 'ls target'
 				  }
 
-				 stage('SonarQube Code Analysis') {
-
-					 withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SonarQubeToken')]) {
-
-					      sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONARQUBE_HOST_URL -Dsonar.login=$SonarQubeToken"
-
-					 }
-
-				 }
-
-
-				  stage('UnitTests & FlowTests with TestDoubles)') {
-						  // OBS privileged: true for image for embedded mongodb (flapdoodle) to work
-						  // and glibc in image!
-
-							def travis_datas = readYaml file: ".travis.yml"
-
-							// Execute tests (steps) in travis file, ie same file which is used in travis build (open source)
-							travis_datas.script.each { item ->
-								   sh "$item"
-							};
-				  }
-
-
-
-
-				  stage('Publish Artifact ARM -> WAR/JAR)') {
-
-						   withCredentials([[$class: 'UsernamePasswordMultiBinding',
-												  credentialsId: 'NEXUS_CREDENTIALS_EIFFEL_NEXUS_EXTENSION',
-												  usernameVariable: 'EIFFEL_NEXUS_USER',
-												  passwordVariable: 'EIFFEL_NEXUS_PASSWORD']]) {
-
-								  // Upload to ARM (ex eiffel-intelligence-0.0.1-SNAPSHOT.war)
-								  sh "curl -v -u ${EIFFEL_NEXUS_USER}:${EIFFEL_NEXUS_PASSWORD} --upload-file ./target/${ARM_ARTIFACT} ${ARM_ARTIFACT_PATH}"
-						  }
-					}
-
-
-        } // container(.....
+				} // container(.....
 
     } // dir ('sourcecode')
-
-
-/*
-
-    dir ('wrapper') {  // workaround to change dir outside container, not working inside container execution.. yet, see issues stated on top of file!
-
-       docker.image("$pipelineParams.DOCKERIMAGE_DOCKER_BUILD_PUSH").inside("--privileged"){
-
-           stage('Build and Push Docker Image to Registry') {
-
-		                       sh "ls src/main/docker/"
-
-
-                               def exists = fileExists '/src/main/docker/app.war'
-                               if (exists) {
-                                   sh "rm /src/main/docker/app.war"
-                               }
-
-
-                               withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                                              credentialsId: 'NEXUS_CREDENTIALS_EIFFEL_NEXUS_EXTENSION',
-                                              usernameVariable: 'EIFFEL_NEXUS_USER',
-                                              passwordVariable: 'EIFFEL_NEXUS_PASSWORD']]) {
-
-
-
-                                   // Fetch Artifact (jar/war) from ARM
-                                   sh "curl -X GET -u ${EIFFEL_NEXUS_USER}:${EIFFEL_NEXUS_PASSWORD} ${ARM_ARTIFACT_PATH} -o src/main/docker/app.${pipelineParams.JAR_WAR_EXTENSION}"
-
-                                   sh "ls src/main/docker/"
-
-                                }
-
-
-                                withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                                            credentialsId: 'DOCKERHUB_CREDENTIALS',
-                                            usernameVariable: 'DOCKER_HUB_USER',
-                                            passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
-
-                                   sh "ls src/main/docker/"
-
-                                   sh "docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}"
-
-                                   sh "docker build --no-cache=true -t ${DOCKER_HUB_USER}/${POM.artifactId}:latest -f src/main/docker/Dockerfile src/main/docker/"
-
-                                   sh "docker push ${DOCKER_HUB_USER}/${POM.artifactId}:latest"
-
-                                   sh "docker build --no-cache=true -t ${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT} -f src/main/docker/Dockerfile src/main/docker/"
-
-                                   sh "docker push ${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT}"
-
-                                   sh "docker logout"
-
-                                   }
-
-
-
-
-                       OUTCOME_CONCLUSION = "SUCCESSFUL"
-
-           } // stage('..
-
-       } // docker.image('....
-
-    } // dir ('wrapper')
 */
+
+
 
          // Clean up workspace
          step([$class: 'WsCleanup'])
