@@ -139,8 +139,8 @@ try {
     dir ('sourcecode') {  // workaround to change dir outside container, not working inside container execution.. yet, see issues stated on top of file!
 
 
-		docker.image("$pipelineParams.DOCKERIMAGE_BUILD_TEST").inside("--privileged"){
-
+		//docker.image("$pipelineParams.DOCKERIMAGE_BUILD_TEST").inside("--privileged"){
+container('maven') {
 
 				 stage('Compile') {
 
@@ -188,12 +188,12 @@ try {
 					}
 
 
-        } // docker.image(.....
+        } // container(.....
 
     } // dir ('sourcecode')
 
 
-
+/*
 
     dir ('wrapper') {  // workaround to change dir outside container, not working inside container execution.. yet, see issues stated on top of file!
 
@@ -256,7 +256,7 @@ try {
        } // docker.image('....
 
     } // dir ('wrapper')
-
+*/
 
          // Clean up workspace
          step([$class: 'WsCleanup'])
