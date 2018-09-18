@@ -48,9 +48,6 @@ def call(body) {
 
 
     podTemplate(label: 'mypod', containers: [
-        //containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
-        //containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.0', command: 'cat', ttyEnabled: true),
-        //containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true),
         containerTemplate(name: 'maven', image: 'emtrout/dind:latest', command: 'cat', ttyEnabled: true)
       ],
       volumes: [
@@ -125,6 +122,14 @@ try {
                           ARM_ARTIFACT = "${POM.artifactId}-${POM.version}.${pipelineParams.JAR_WAR_EXTENSION}"
 
                           ARM_ARTIFACT_PATH = "${pipelineParams.ARM_URL}/${POM.version}/${ARM_ARTIFACT}"
+
+                          sh "echo ARM_ARTIFACT -> $ARM_ARTIFACT"
+
+                          sh "echo ARM_ARTIFACT_PATH -> $ARM_ARTIFACT_PATH"
+
+                          sh "ls"
+
+                          sh "pwd"
               }
 
         }
@@ -135,7 +140,7 @@ try {
 
 
 
-/*
+
     dir ('sourcecode') {  // workaround to change dir outside container, not working inside container execution.. yet, see issues stated on top of file!
 
 
@@ -151,7 +156,7 @@ container('maven') {
 				} // container(.....
 
     } // dir ('sourcecode')
-*/
+
 
 
 
