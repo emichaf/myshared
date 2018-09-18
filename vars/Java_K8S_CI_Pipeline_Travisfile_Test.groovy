@@ -49,7 +49,8 @@ def call(body) {
 
     podTemplate(label: 'mypod', containers: [
         //containerTemplate(name: 'maven', image: 'emtrout/dind:latest', command: 'cat', ttyEnabled: true)
-        containerTemplate(name: 'maven', image: 'emtrout/nind23:latest', command: 'cat', ttyEnabled: true)
+        containerTemplate(name: 'maven', image: 'emtrout/nind23:latest', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'selenium', image: 'selenium/hub:latest', command: 'cat', ttyEnabled: true)
 
       ],
       volumes: [
@@ -156,9 +157,10 @@ try {
 
   						  sh 'ls target'
   				  }
+           } // container(.....
 
 
-
+          container('maven') {
             stage('SonarQube Code Analysis') {
 
 
@@ -169,8 +171,10 @@ try {
               }
 
             }
+            } // container(.....
 
 
+           container('selenium') {
              stage('UnitTests & FlowTests with TestDoubles)') {
                  // OBS privileged: true for image for embedded mongodb (flapdoodle) to work
                  // and glibc in image!
@@ -179,13 +183,13 @@ try {
 
                  // Execute tests (steps) in travis file, ie same file which is used in travis build (open source)
                  travis_datas.script.each { item ->
-  //EXCLUDE missing selenium                    sh "$item"
+                   sh "$item"
                  };
              }
+          } // container(.....
 
 
-
-
+          container('maven') {
              stage('Publish Artifact ARM -> WAR/JAR)') {
 
                   withCredentials([[$class: 'UsernamePasswordMultiBinding',
@@ -197,10 +201,8 @@ try {
                      sh "curl -v -u ${EIFFEL_NEXUS_USER}:${EIFFEL_NEXUS_PASSWORD} --upload-file ./target/${ARM_ARTIFACT} ${ARM_ARTIFACT_PATH}"
                  }
              }
-
-
-
 				} // container(.....
+
 
     } // dir ('sourcecode')
 
