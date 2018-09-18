@@ -117,19 +117,21 @@ try {
 
                           GIT_LONG_COMMIT =  sh(returnStdout: true, script: "git log --format='%H' -n 1").trim()
 
+                          sh "ls"
+
+                          sh "pwd"
+
                           POM = readMavenPom file: 'pom.xml'
 
                           ARM_ARTIFACT = "${POM.artifactId}-${POM.version}.${pipelineParams.JAR_WAR_EXTENSION}"
 
                           ARM_ARTIFACT_PATH = "${pipelineParams.ARM_URL}/${POM.version}/${ARM_ARTIFACT}"
 
-                          sh "echo ARM_ARTIFACT -> $ARM_ARTIFACT"
+                          sh "echo ARM_ARTIFACT : $ARM_ARTIFACT"
 
-                          sh "echo ARM_ARTIFACT_PATH -> $ARM_ARTIFACT_PATH"
+                          sh "echo ARM_ARTIFACT_PATH : $ARM_ARTIFACT_PATH"
 
-                          sh "ls"
 
-                          sh "pwd"
               }
 
         }
