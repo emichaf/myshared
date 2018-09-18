@@ -159,12 +159,13 @@ try {
 
             stage('SonarQube Code Analysis') {
 
+/*
               withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SonarQubeToken')]) {
 
                    sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONARQUBE_HOST_URL -Dsonar.login=$SonarQubeToken"
 
               }
-
+*/
             }
 
 
