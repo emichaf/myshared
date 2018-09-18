@@ -47,7 +47,16 @@ def call(body) {
     body()
 
 
-	node{
+    podTemplate(label: 'mypod', containers: [
+        containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
+        containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.0', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'maven', image: 'emtrout/dind:latest', command: 'cat', ttyEnabled: true)
+      ],
+      volumes: [
+        hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
+      ]) {
+        node('mypod') {
 
   // ######### NOTES & INFORMATION & WARNINGS ##############################################################################
   // OBS change dir in containers not working, so fetching scm in containers is required. Stash/unstash dir() not working..
@@ -66,8 +75,6 @@ def call(body) {
 
 try {
 
-
- docker.withServer("$pipelineParams.DOCKER_HOST", 'remote_pipelineParams.DOCKER_HOST') {
 
      /*------------------------------------------------------------------------------------------
      For inside() to work, the Docker server and the Jenkins agent must use the same filesystem,
@@ -254,8 +261,6 @@ try {
          // Clean up workspace
          step([$class: 'WsCleanup'])
 
- } //  docker.withServer(...
-
 currentBuild.result = 'SUCCESS'
 
 } catch (FlowInterruptedException interruptEx) {
@@ -280,6 +285,7 @@ currentBuild.result = 'SUCCESS'
 
 } // node
 
+} // podTemplate
 
 
 
