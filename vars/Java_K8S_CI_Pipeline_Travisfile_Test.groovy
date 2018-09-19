@@ -254,6 +254,8 @@ try {
 
                                    sh "docker images"
 
+                                   sh "docker version"
+
                                    sh "echo registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:latest"
 
                                    sh "docker push registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:latest"
