@@ -248,7 +248,7 @@ try {
 
                                    sh "ls src/main/docker/"
 
-                                   sh "docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}"
+                                   sh "docker login registry.hub.docker.com -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}"
 
                                    sh "docker build --no-cache=true -t registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:latest -f src/main/docker/Dockerfile src/main/docker/"
 
