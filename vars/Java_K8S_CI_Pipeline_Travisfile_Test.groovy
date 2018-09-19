@@ -184,7 +184,7 @@ try {
 
                  // Execute tests (steps) in travis file, ie same file which is used in travis build (open source)
                  travis_datas.script.each { item ->
-  //selenium missing                 sh "$item"
+                   sh "$item"
                  };
              }
           } // container(.....
@@ -246,32 +246,24 @@ try {
                                             usernameVariable: 'DOCKER_HUB_USER',
                                             passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
 
+                                   def IMG_LATEST = "registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:latest"
+                                   def IMG_VERSION = "registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT}"
+
                                    sh "ls src/main/docker/"
 
                                    sh "docker login registry.hub.docker.com -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}"
 
-                                   sh "docker build --no-cache=true -t registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:latest -f src/main/docker/Dockerfile src/main/docker/"
+                                   sh "docker build --no-cache=true -t ${IMG_LATEST} -f src/main/docker/Dockerfile src/main/docker/"
 
-                                   sh "docker images"
+                                   sh "docker push ${IMG_LATEST}"
 
-                                   sh "docker version"
+                                   sh "docker build --no-cache=true -t ${IMG_VERSION} -f src/main/docker/Dockerfile src/main/docker/"
 
-                                   sh "echo registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:latest"
-
-                                   sh "docker push registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:latest"
-
-                                   sh "docker build --no-cache=true -t registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT} -f src/main/docker/Dockerfile src/main/docker/"
-
-                                   sh "docker images"
-
-                                   sh "docker push registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT}"
+                                   sh "docker push ${IMG_VERSION}"
 
                                    sh "docker logout"
 
                                    }
-
-
-
 
                        OUTCOME_CONCLUSION = "SUCCESSFUL"
 
