@@ -167,7 +167,7 @@ try {
 
               withCredentials([string(credentialsId: 'SONARQUBE_TOKEN', variable: 'SonarQubeToken')]) {
 
-                   sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONARQUBE_HOST_URL -Dsonar.login=$SonarQubeToken"
+//                   sh "mvn sonar:sonar -Dsonar.host.url=$pipelineParams.SONARQUBE_HOST_URL -Dsonar.login=$SonarQubeToken"
 
               }
 
@@ -252,9 +252,13 @@ try {
 
                                    sh "docker build --no-cache=true -t ${DOCKER_HUB_USER}/${POM.artifactId}:latest -f src/main/docker/Dockerfile src/main/docker/"
 
+                                   sh "docker images"
+
                                    sh "docker push ${DOCKER_HUB_USER}/${POM.artifactId}:latest"
 
                                    sh "docker build --no-cache=true -t ${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT} -f src/main/docker/Dockerfile src/main/docker/"
+
+                                   sh "docker images"
 
                                    sh "docker push ${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT}"
 
