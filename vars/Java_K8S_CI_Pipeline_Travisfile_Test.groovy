@@ -250,19 +250,19 @@ try {
 
                                    sh "docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}"
 
-                                   sh "docker build --no-cache=true -t ${DOCKER_HUB_USER}/${POM.artifactId}:latest -f src/main/docker/Dockerfile src/main/docker/"
+                                   sh "docker build --no-cache=true -t registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:latest -f src/main/docker/Dockerfile src/main/docker/"
 
                                    sh "docker images"
 
-                                   sh "echo ${DOCKER_HUB_USER}/${POM.artifactId}:latest"
+                                   sh "echo registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:latest"
 
-                                   sh "docker push ${DOCKER_HUB_USER}/${POM.artifactId}:latest"
+                                   sh "docker push registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:latest"
 
-                                   sh "docker build --no-cache=true -t ${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT} -f src/main/docker/Dockerfile src/main/docker/"
+                                   sh "docker build --no-cache=true -t registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT} -f src/main/docker/Dockerfile src/main/docker/"
 
                                    sh "docker images"
 
-                                   sh "docker push ${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT}"
+                                   sh "docker push registry.hub.docker.com/${DOCKER_HUB_USER}/${POM.artifactId}:${POM.version}-${GIT_SHORT_COMMIT}"
 
                                    sh "docker logout"
 
