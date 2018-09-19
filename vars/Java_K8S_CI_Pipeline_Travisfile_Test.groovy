@@ -50,7 +50,7 @@ def call(body) {
     podTemplate(label: 'mypod', containers: [
         //containerTemplate(name: 'maven', image: 'emtrout/dind:latest', command: 'cat', ttyEnabled: true)
         containerTemplate(name: 'maven', image: 'emtrout/nind23:latest', command: 'cat', ttyEnabled: true),
-        containerTemplate(name: 'selenium', image: 'selenium/hub:latest', command: 'cat', ttyEnabled: true),
+        //containerTemplate(name: 'selenium', image: 'selenium/hub:latest', command: 'cat', ttyEnabled: true),
          containerTemplate(name: 'selenium', image: 'selenium/standalone-chrome:latest', command: 'cat', ttyEnabled: true)
 
       ],
